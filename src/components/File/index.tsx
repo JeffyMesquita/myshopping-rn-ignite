@@ -12,9 +12,10 @@ type Props = {
   data: FileProps;
   onShow?: () => void;
   onDelete?: () => void;
+  visible?: boolean;
 }
 
-export function File({ data, onShow, onDelete }: Props) {
+export function File({ data, onShow, onDelete, visible }: Props) {
   return (
     <Container>
       <Info>
@@ -30,7 +31,7 @@ export function File({ data, onShow, onDelete }: Props) {
         />
 
         <ButtonIcon
-          icon="visibility"
+          icon={visible ? "close" : "visibility"}
           onPress={onShow}
         />
       </Options>
