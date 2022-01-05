@@ -22,6 +22,26 @@ target 'myshopping' do
   #   use_flipper!('Flipper' => '0.75.1', 'Flipper-Folly' => '2.5.3', 'Flipper-RSocket' => '1.3.1')
   # end
 
+  post_integrate do |installer|
+    update_pod_build_phase_order("./Pods/Pods.xcodeproj", "ExpoModulesCore")
+  end
+
+  def update_pod_build_phase_order(xcodeproj_path, target_name)
+    puts "Updating build phase order of 'Headers' in #{xcodeproj_path}, #{target_name} \n"
+    project = Xcodeproj::Project.open(xcodeproj_path)
+    target = project.targets.select { |t| t.name == target_name }.first
+    puts "Found target: #{target.name}\n"
+    cocoapods_index = target.build_phases.index do |b|
+      puts "#{b} , #{b == "HeadersBuildPhase"}"
+      b.to_s == "HeadersBuildPhase"
+    end
+    if cocoapods_index.nil? == false
+        puts "#{target_name}: 'HeadersBuildPhase' index was: #{cocoapods_index}, moving to index 1.\n"
+        target.build_phases.move_from(cocoapods_index, 1)
+    end
+    project.save
+  end
+
   post_install do |installer|
     react_native_post_install(installer)
 
