@@ -54,6 +54,9 @@ export function Upload() {
     });
 
     uploadTask.then(async () => {
+      const imageUrl = await fileRef.getDownloadURL();
+      console.log(imageUrl);
+
       Alert.alert("Upload concluído com sucesso!");
       setImage("");
       setProgress(0);

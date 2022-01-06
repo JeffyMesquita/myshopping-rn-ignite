@@ -15,7 +15,7 @@ export function Photo({ uri, ...rest }: Props) {
           uri ? <Image source={{ uri }} /> : (
             <EmptyPhotoContainer>
               <EmptyPhotoText>
-                nenhuma foto selecionada
+                Nenhuma foto selecionada
               </EmptyPhotoText>
             </EmptyPhotoContainer >
           )
